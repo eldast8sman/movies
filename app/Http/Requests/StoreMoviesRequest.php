@@ -13,7 +13,7 @@ class StoreMoviesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class StoreMoviesRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string|max:1000|exists:\App\Models\Users,id',
+            'description' => 'required|string',
+            'release_data' => 'required|data',
+            'rating' => 'required',
+            'ticket_price' => 'required|double',
+            'country' => 'required',
+            'genre' => 'required|string',
+            'photo' => 'nullable|string'
         ];
     }
 }
