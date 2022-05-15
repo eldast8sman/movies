@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movies;
 use App\Models\Comments;
+use Illuminate\Http\Request;
+use App\Http\Resources\CommentsResource;
 use App\Http\Requests\StoreCommentsRequest;
 use App\Http\Requests\UpdateCommentsRequest;
 
@@ -36,7 +39,14 @@ class CommentsController extends Controller
      */
     public function store(StoreCommentsRequest $request)
     {
-        //
+        $data = $request->validated();
+        $result = Comments::create($data);
+        return new CommentsResource($result);
+    }
+
+    public function byMovie(Request $request, Movies $movies)
+    {
+        return CommentsResource::collection(Comments::where('movie_id', $movies->id)->paginate());
     }
 
     /**
@@ -81,6 +91,7 @@ class CommentsController extends Controller
      */
     public function destroy(Comments $comments)
     {
-        //
+        $comments->delete();
+        return response('Comment deleted successfully', 204);
     }
 }
