@@ -16,7 +16,7 @@ class MoviesController extends Controller
      */
     public function index()
     {
-        return MoviesResource::collection(Movies::all()->paginate());
+        return MoviesResource::collection(Movies::paginate());
     }
 
     /**
@@ -48,9 +48,10 @@ class MoviesController extends Controller
      * @param  \App\Models\Movies  $movies
      * @return \Illuminate\Http\Response
      */
-    public function show(Movies $movies)
+    public function show(Movies $movies, $slug)
     {
-        //
+        $movie = Movies::where('slug', $slug)->first();
+        return new MoviesResource($movie);
     }
 
     /**

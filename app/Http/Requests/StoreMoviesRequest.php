@@ -24,11 +24,12 @@ class StoreMoviesRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:1000|exists:\App\Models\Users,id',
+            'name' => 'required|string|max:1000',
+            'user_id' => 'required|exists:\App\Models\User,id',
             'description' => 'required|string',
-            'release_data' => 'required|data',
+            'release_date' => 'required|date',
             'rating' => 'required',
-            'ticket_price' => 'required|double',
+            'ticket_price' => 'required',
             'country' => 'required',
             'genre' => 'required|string',
             'photo' => 'nullable|string'
