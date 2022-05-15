@@ -22,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('movies', [MoviesController::class, 'index']);
 Route::post('movies', [MoviesController::class, 'store']);
 Route::get('movies/{slug}', [MoviesController::class, 'show']);
+Route::put('movies/{id}', [MoviesController::class, 'update']);
+Route::delete('movies/{id}', [MoviesController::class, 'destroy']);
