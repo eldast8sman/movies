@@ -74,7 +74,8 @@ class MoviesController extends Controller
      */
     public function update(UpdateMoviesRequest $request, Movies $movies)
     {
-        //
+        $movies->update($request->all());
+        return new MoviesResource($movies);
     }
 
     /**
@@ -85,6 +86,7 @@ class MoviesController extends Controller
      */
     public function destroy(Movies $movies)
     {
-        //
+        $movies->delete();
+        return response($movies->name." deleted successfully", 204);
     }
 }
