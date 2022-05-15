@@ -13,7 +13,7 @@ class StoreCommentsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreCommentsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'movie_id' => 'required|exists:\App\Models\Movies,id',
+            'user_id' => 'required|exists:\App\Models\User,id',
+            'name' => 'required|string|max:1000',
+            'comment' => 'required'
         ];
     }
 }
