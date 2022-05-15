@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movies;
+use App\Http\Resources\MoviesResource;
 use App\Http\Requests\StoreMoviesRequest;
 use App\Http\Requests\UpdateMoviesRequest;
 
@@ -15,7 +16,7 @@ class MoviesController extends Controller
      */
     public function index()
     {
-        //
+        return MoviesResource::collection(Movies::all()->paginate());
     }
 
     /**
@@ -36,7 +37,9 @@ class MoviesController extends Controller
      */
     public function store(StoreMoviesRequest $request)
     {
-        //
+        $data = $request->validated();
+        $result = Movies::create($data);
+        return new MoviesResource($result);
     }
 
     /**
