@@ -72,10 +72,18 @@ class MoviesController extends Controller
      * @param  \App\Models\Movies  $movies
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMoviesRequest $request, Movies $movies)
+    public function update(UpdateMoviesRequest $request, $id)
     {
-        $movies->update($request->all());
-        return new MoviesResource($movies);
+        $movie = Movies::find($id);
+        if($movie){
+            $movie->update($request->all());
+            return new MoviesResource($movie);
+        } else {
+            return response("Movie Not found", 404);
+        }
+        //$movies->update($request->all());
+        //return new MoviesResource($movies);
+        //return response($request->all(), 200);
     }
 
     /**
@@ -84,9 +92,14 @@ class MoviesController extends Controller
      * @param  \App\Models\Movies  $movies
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Movies $movies)
+    public function destroy($id)
     {
-        $movies->delete();
-        return response($movies->name." deleted successfully", 204);
+        $movie = Movies::find($id);
+        if($movie){
+            $movie->delete();
+            return new MoviesResource($movie);
+        } else {
+            return response("Movie Not found", 404);
+        }
     }
 }
