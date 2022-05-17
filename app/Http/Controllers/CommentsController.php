@@ -44,9 +44,9 @@ class CommentsController extends Controller
         return new CommentsResource($result);
     }
 
-    public function byMovie(Request $request, Movies $movies)
+    public function byMovie(Request $request, $movie_id)
     {
-        return CommentsResource::collection(Comments::where('movie_id', $movies->id)->paginate());
+        return CommentsResource::collection(Comments::where('movie_id', $movie_id)->paginate());
     }
 
     /**
@@ -55,9 +55,14 @@ class CommentsController extends Controller
      * @param  \App\Models\Comments  $comments
      * @return \Illuminate\Http\Response
      */
-    public function show(Comments $comments)
+    public function show(Comments $comments, $id)
     {
-        //
+        $comment = Comments::find($id);
+        if($comment){
+            return new CommentsResource($comment);
+        } else {
+            return response("No Comment was found", 404);
+        }
     }
 
     /**
@@ -78,9 +83,17 @@ class CommentsController extends Controller
      * @param  \App\Models\Comments  $comments
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCommentsRequest $request, Comments $comments)
+    public function update(UpdateCommentsRequest $request, $comment_id)
     {
-        //
+        $comment = Comments::find($comment_id);
+        if($comment){
+            $data = $request->validated();
+            $comment->comment = $request->comment;
+            $comment->save();
+            return new CommentsResource($comment);
+        } else {
+            return response("No Comment was found", 404);
+        }
     }
 
     /**
@@ -89,9 +102,14 @@ class CommentsController extends Controller
      * @param  \App\Models\Comments  $comments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comments $comments)
+    public function destroy($id)
     {
-        $comments->delete();
-        return response('Comment deleted successfully', 204);
+        $comment = Comments::find($id);
+        if($comment){
+            $comment->delete();
+            return new CommentsResource($comment);
+        } else {
+            return response("Comment Not found", 404);
+        }
     }
 }

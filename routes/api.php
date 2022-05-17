@@ -26,5 +26,7 @@ Route::get('movies/{slug}', [MoviesController::class, 'show']);
 Route::put('movies/{id}', [MoviesController::class, 'update']);
 Route::delete('movies/{id}', [MoviesController::class, 'destroy']);
 Route::post('comments', [CommentsController::class, 'store']);
+Route::get('comments/{id}', [CommentsController::class, 'show']);
 Route::get('comments/by-movie/{movie}', [CommentsController::class, 'byMovie']);
+Route::put('comments/{id}', [CommentsController::class, 'update']);
 Route::delete('comments/{comment}', [CommentsController::class, 'destroy']);
